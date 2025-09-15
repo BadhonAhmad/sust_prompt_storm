@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
       vote_id: newVote.vote_id,
       voter_id: newVote.voter_id,
       candidate_id: newVote.candidate_id,
-      timestamp: newVote.timestamp
+      timestamp: newVote.timestamp.replace(/:/g, ': ')
     });
   } catch (error) {
     if (error.message.includes('has already voted')) {
@@ -49,8 +49,12 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const votes = voteService.getAllVotes();
+    const formattedVotes = votes.map(vote => ({
+      ...vote,
+      timestamp: vote.timestamp.replace(/:/g, ': ')
+    }));
     res.status(200).json({
-      votes: votes,
+      votes: formattedVotes,
       count: votes.length
     });
   } catch (error) {
@@ -128,6 +132,15 @@ router.get('/range', async (req, res) => {
       });
     }
     
+    // Check if candidate exists
+    try {
+      candidateService.getCandidateById(candidateIdNum);
+    } catch (candidateError) {
+      return res.status(424).json({
+        message: 'Candidate not found'
+      });
+    }
+    
     const rangeData = voteService.getVotesInRange(candidateIdNum, from, to);
     res.status(235).json({
       candidate_id: candidateIdNum,
@@ -161,7 +174,11 @@ router.post('/weighted', async (req, res) => {
     }
 
     const weightedVote = voteService.castWeightedVote({ voter_id, candidate_id });
-    res.status(234).json(weightedVote);
+    const formattedWeightedVote = {
+      ...weightedVote,
+      timestamp: weightedVote.timestamp.replace(/:/g, ': ')
+    };
+    res.status(234).json(formattedWeightedVote);
   } catch (error) {
     if (error.message.includes('has already voted')) {
       res.status(423).json({
