@@ -16,79 +16,79 @@ class InMemoryDB {
     this.ballotIdCounter = 0;
     
     // Initialize with some sample data
-    this.initializeSampleData();
+    // this.initializeSampleData();
   }
 
-  initializeSampleData() {
-    // Sample users
-    this.users = [
-      {
-        id: uuidv4(),
-        name: 'John Doe',
-        email: 'john@example.com',
-        role: 'participant',
-        team: 'Team Alpha',
-        createdAt: new Date().toISOString()
-      },
-      {
-        id: uuidv4(),
-        name: 'Jane Smith',
-        email: 'jane@example.com',
-        role: 'mentor',
-        team: null,
-        createdAt: new Date().toISOString()
-      }
-    ];
+//   initializeSampleData() {
+//     // Sample users
+//     this.users = [
+//       {
+//         id: uuidv4(),
+//         name: 'John Doe',
+//         email: 'john@example.com',
+//         role: 'participant',
+//         team: 'Team Alpha',
+//         createdAt: new Date().toISOString()
+//       },
+//       {
+//         id: uuidv4(),
+//         name: 'Jane Smith',
+//         email: 'jane@example.com',
+//         role: 'mentor',
+//         team: null,
+//         createdAt: new Date().toISOString()
+//       }
+//     ];
 
-    // Sample projects
-    this.projects = [
-      {
-        id: uuidv4(),
-        title: 'AI-Powered Chat Assistant',
-        description: 'A smart chatbot using natural language processing',
-        category: 'AI/ML',
-        teamName: 'Team Alpha',
-        status: 'in-progress',
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      }
-    ];
+//     // Sample projects
+//     this.projects = [
+//       {
+//         id: uuidv4(),
+//         title: 'AI-Powered Chat Assistant',
+//         description: 'A smart chatbot using natural language processing',
+//         category: 'AI/ML',
+//         teamName: 'Team Alpha',
+//         status: 'in-progress',
+//         createdAt: new Date().toISOString(),
+//         updatedAt: new Date().toISOString()
+//       }
+//     ];
 
-    // Sample voters
-    this.voters = [
-      {
-        voter_id: 1,
-        name: 'Alice Johnson',
-        age: 22,
-        has_voted: false
-      },
-      {
-        voter_id: 2,
-        name: 'Bob Smith',
-        age: 30,
-        has_voted: false
-      }
-    ];
+//     // Sample voters
+//     this.voters = [
+//       {
+//         voter_id: 1,
+//         name: 'Alice Johnson',
+//         age: 22,
+//         has_voted: false
+//       },
+//       {
+//         voter_id: 2,
+//         name: 'Bob Smith',
+//         age: 30,
+//         has_voted: false
+//       }
+//     ];
 
-    // Sample candidates
-    this.candidates = [
-      {
-        candidate_id: 1,
-        name: 'John Doe',
-        party: 'Green Party',
-        votes: 0
-      },
-      {
-        candidate_id: 2,
-        name: 'Jane Smith',
-        party: 'Blue Party',
-        votes: 0
-      }
-    ];
+//     // Sample candidates
+//     this.candidates = [
+//       {
+//         candidate_id: 1,
+//         name: 'John Doe',
+//         party: 'Green Party',
+//         votes: 0
+//       },
+//       {
+//         candidate_id: 2,
+//         name: 'Jane Smith',
+//         party: 'Blue Party',
+//         votes: 0
+//       }
+//     ];
 
-    // Sample votes (empty initially)
-    this.votes = [];
-  }
+//     // Sample votes (empty initially)
+//     this.votes = [];
+//   }
 
   // Generic CRUD operations
   findAll(collection) {

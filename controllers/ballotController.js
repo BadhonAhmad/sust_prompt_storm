@@ -30,11 +30,17 @@ router.post('/encrypted', async (req, res) => {
       signature
     });
     
-    res.status(236).json(encryptedBallot);
+    // Return the exact format shown in the demo
+    res.status(236).json({
+      ballot_id: encryptedBallot.ballot_id,
+      status: "accepted",
+      nullifier: encryptedBallot.nullifier,
+      anchored_at: encryptedBallot.anchored_at
+    });
   } catch (error) {
     if (error.message.includes('invalid zk proof')) {
       res.status(425).json({
-        message: error.message
+        message: "invalid zk proof"
       });
     } else if (error.message.includes('nullifier already used')) {
       res.status(409).json({
@@ -48,10 +54,17 @@ router.post('/encrypted', async (req, res) => {
   }
 });
 
-// GET /api/ballots/encrypted - Get all encrypted ballots (optional)
+// GET /api/ballots/encrypted - Get encrypted ballots for election
 router.get('/encrypted', async (req, res) => {
   try {
     const { election_id } = req.query;
+    
+    if (!election_id) {
+      return res.status(400).json({
+        message: 'election_id query parameter is required'
+      });
+    }
+    
     const ballots = ballotService.getEncryptedBallots(election_id);
     res.status(200).json({
       ballots: ballots,
