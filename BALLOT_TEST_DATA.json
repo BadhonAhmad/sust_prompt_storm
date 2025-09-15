@@ -1,0 +1,8 @@
+{
+  "election_id": "nat-2025",
+  "ciphertext": "SGVsbG8gV29ybGQgVGhpcyBpcyBhIHRlc3QgY2lwaGVydGV4dCBmb3IgZW5jcnlwdGVkIGJhbGxvdA==",
+  "zk_proof": "VGhpcyBpcyBhIHRlc3QgemVyby1rbm93bGVkZ2UgcHJvb2YgZm9yIHZhbGlkYXRpb24gdGVzdGluZw==",
+  "voter_pubkey": "04a7b9b3c8d9e2f1a8b7c6d5e4f3a2b1c9d8e7f6a5b4c3d2e1f9a8b7c6d5e4f3",
+  "nullifier": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
+  "signature": "VGhpcyBpcyBhIHRlc3QgZWQyNTUxOSBzaWduYXR1cmUgZm9yIGJhbGxvdCB2YWxpZGF0aW9u"
+}
