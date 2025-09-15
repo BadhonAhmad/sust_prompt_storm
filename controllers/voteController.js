@@ -79,9 +79,13 @@ router.get('/timeline', async (req, res) => {
     }
     
     const timeline = voteService.getVoteTimelineForCandidate(candidateIdNum);
+    const formattedTimeline = timeline.map(item => ({
+      ...item,
+      timestamp: item.timestamp.replace(/:/g, ': ')
+    }));
     res.status(233).json({
       candidate_id: candidateIdNum,
-      timeline: timeline
+      timeline: formattedTimeline
     });
   } catch (error) {
     res.status(500).json({
@@ -96,14 +100,14 @@ router.get('/range', async (req, res) => {
     const { candidate_id, from, to } = req.query;
     
     if (!candidate_id || !from || !to) {
-      return res.status(400).json({
+      return res.status(424).json({
         message: 'candidate_id, from, and to query parameters are required'
       });
     }
     
     const candidateIdNum = parseInt(candidate_id);
     if (isNaN(candidateIdNum)) {
-      return res.status(400).json({
+      return res.status(424).json({
         message: 'Invalid candidate_id format'
       });
     }
@@ -113,7 +117,7 @@ router.get('/range', async (req, res) => {
     const toDate = new Date(to);
     
     if (isNaN(fromDate.getTime()) || isNaN(toDate.getTime())) {
-      return res.status(400).json({
+      return res.status(424).json({
         message: 'Invalid date format. Use ISO 8601 format'
       });
     }
@@ -132,7 +136,7 @@ router.get('/range', async (req, res) => {
       votes_gained: rangeData.votes_gained
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(424).json({
       message: error.message
     });
   }
