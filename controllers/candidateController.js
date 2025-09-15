@@ -6,10 +6,8 @@ const candidateService = require('../services/candidateService');
 router.post('/', async (req, res) => {
   try {
     const newCandidate = candidateService.registerCandidate(req.body);
-    res.status(201).json({
-  status: "registered",
-  newCandidate
-});
+    res.status(226).json(
+  newCandidate);
   } catch (error) {
     if (error.message.includes('already exists')) {
       res.status(409).json({

@@ -13,11 +13,11 @@ router.post('/', async (req, res) => {
         message: error.message
       });
     } else if (error.message.includes('invalid age')) {
-      res.status(422).json({
+      res.status(409).json({
         message: error.message
       });
     } else {
-      res.status(400).json({
+      res.status(409).json({
         message: error.message
       });
     }
@@ -74,10 +74,10 @@ router.put('/:voter_id', async (req, res) => {
     }
 
     const updatedVoter = voterService.updateVoter(voter_id, req.body);
-    res.status(224).json(updatedVoter);
+    res.end();
   } catch (error) {
     if (error.message.includes('was not found')) {
-      res.status(417).json({
+      res.status(422).json({
         message: error.message
       });
     } else if (error.message.includes('invalid age')) {
@@ -85,7 +85,7 @@ router.put('/:voter_id', async (req, res) => {
         message: error.message
       });
     } else {
-      res.status(400).json({
+      res.status(422).json({
         message: error.message
       });
     }

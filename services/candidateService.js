@@ -64,6 +64,15 @@ class CandidateService {
       throw error;
     }
   }
+
+  // Get Schulze/Condorcet results
+  getSchulzeResults(election_id) {
+    try {
+      return db.computeSchulzeWinner(election_id);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = new CandidateService();

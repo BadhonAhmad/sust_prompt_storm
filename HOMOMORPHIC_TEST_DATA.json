@@ -1,0 +1,20 @@
+{
+  "election_id": "nat-2025",
+  "trustee_decrypt_shares": [
+    {
+      "trustee_id": "T1",
+      "share": "base64(...)",
+      "proof": "base64(NIZK)"
+    },
+    {
+      "trustee_id": "T3",
+      "share": "base64(...)",
+      "proof": "base64(NIZK)"
+    },
+    {
+      "trustee_id": "T5",
+      "share": "base64(...)",
+      "proof": "base64(NIZK)"
+    }
+  ]
+}

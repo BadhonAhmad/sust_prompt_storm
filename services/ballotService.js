@@ -32,6 +32,53 @@ class BallotService {
     return db.getEncryptedBallots(election_id);
   }
   
+  // Submit ranked ballot for Condorcet (Schulze) method
+  submitRankedBallot(ballotData) {
+    try {
+      const { election_id, voter_id, ranking, timestamp } = ballotData;
+      
+      // Validate ranking array
+      if (!this.validateRanking(ranking)) {
+        throw new Error('invalid ranking - must contain valid candidate preferences');
+      }
+      
+      // Check if voter already submitted a ranked ballot
+      if (db.hasVoterSubmittedRankedBallot(election_id, voter_id)) {
+        throw new Error('voter has already voted in this election');
+      }
+      
+      // Create ranked ballot record
+      const ballot = db.createRankedBallot(ballotData);
+      return ballot;
+    } catch (error) {
+      throw error;
+    }
+  }
+  
+  // Get ranked ballots for election
+  getRankedBallots(election_id) {
+    return db.getRankedBallots(election_id);
+  }
+  
+  // Validate ranking array
+  validateRanking(ranking) {
+    // Check if ranking is array with valid candidate IDs
+    if (!Array.isArray(ranking) || ranking.length === 0) {
+      return false;
+    }
+    
+    // Check for duplicate candidates in ranking
+    const uniqueCandidates = new Set(ranking);
+    if (uniqueCandidates.size !== ranking.length) {
+      return false;
+    }
+    
+    // All candidates should be numbers/valid IDs
+    return ranking.every(candidateId => 
+      typeof candidateId === 'number' && candidateId > 0
+    );
+  }
+  
   // Validate zero-knowledge proof (simplified simulation)
   validateZKProof(zk_proof) {
     // For testing purposes, just check if it's a non-empty string

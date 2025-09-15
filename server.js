@@ -12,6 +12,7 @@ const voteController = require('./controllers/voteController');
 const resultsController = require('./controllers/resultsController');
 const ballotController = require('./controllers/ballotController');
 const analyticsController = require('./controllers/analyticsController');
+const auditsController = require('./controllers/auditsController');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,7 +35,8 @@ app.get('/', (req, res) => {
       votes: '/api/votes',
       results: '/api/results',
       ballots: '/api/ballots',
-      analytics: '/api/analytics'
+      analytics: '/api/analytics',
+      audits: '/api/audits'
     }
   });
 });
@@ -48,6 +50,7 @@ app.use('/api/votes', voteController);
 app.use('/api/results', resultsController);
 app.use('/api/ballots', ballotController);
 app.use('/api/analytics', analyticsController);
+app.use('/api/audits', auditsController);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

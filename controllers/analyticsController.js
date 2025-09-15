@@ -9,21 +9,58 @@ router.post('/dp', async (req, res) => {
       election_id,
       query,
       epsilon,
-      buckets,
       delta
     } = req.body;
     
-    // Validate required fields
-    if (!election_id || !query || !epsilon || !buckets || !delta) {
+    // Extract buckets from query object
+    const buckets = query?.buckets;
+    
+    // Debug logging
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+    console.log('Extracted buckets:', buckets);
+    console.log('Validation checks:', {
+      election_id: !!election_id,
+      query: !!query,
+      epsilon: epsilon !== undefined,
+      buckets: !!buckets && Array.isArray(buckets),
+      delta: delta !== undefined
+    });
+    
+    // Validate required fields - more specific validation
+    if (!election_id) {
       return res.status(400).json({
-        message: 'All fields are required: election_id, query, epsilon, buckets, delta'
+        message: 'election_id is required'
+      });
+    }
+    
+    if (!query) {
+      return res.status(400).json({
+        message: 'query object is required'
+      });
+    }
+    
+    if (epsilon === undefined || epsilon === null) {
+      return res.status(400).json({
+        message: 'epsilon is required'
+      });
+    }
+    
+    if (!buckets || !Array.isArray(buckets)) {
+      return res.status(400).json({
+        message: 'query.buckets array is required'
+      });
+    }
+    
+    if (delta === undefined || delta === null) {
+      return res.status(400).json({
+        message: 'delta is required'
       });
     }
     
     // Validate query structure
-    if (!query.type || !query.dimension) {
+    if (!query.type || !query.dimension || !Array.isArray(buckets)) {
       return res.status(400).json({
-        message: 'Query must have type and dimension fields'
+        message: 'Query must have type, dimension, and buckets array fields'
       });
     }
     
@@ -48,7 +85,17 @@ router.post('/dp', async (req, res) => {
       delta
     });
     
-    res.status(238).json(dpResults);
+    // Return status 238 Private with exact format from the image
+    res.status(238).json({
+      election_id: dpResults.election_id,
+      query_type: dpResults.query_type,
+      dimension: dpResults.dimension,
+      epsilon_used: dpResults.epsilon_used,
+      delta: dpResults.delta,
+      results: dpResults.results,
+      privacy_budget_remaining: dpResults.privacy_budget_remaining,
+      timestamp: dpResults.timestamp
+    });
   } catch (error) {
     if (error.message.includes('privacy budget exceeded')) {
       res.status(429).json({

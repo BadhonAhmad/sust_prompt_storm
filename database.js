@@ -14,6 +14,10 @@ class InMemoryDB {
     this.encryptedBallots = [];
     this.usedNullifiers = new Set();
     this.ballotIdCounter = 0;
+    this.rankedBallots = [];
+    this.rankedBallotIdCounter = 0;
+    this.riskLimitingAudits = [];
+    this.auditIdCounter = 8881;
     
     // Initialize with some sample data
     // this.initializeSampleData();
@@ -417,6 +421,172 @@ class InMemoryDB {
       roles[user.role] = (roles[user.role] || 0) + 1;
     });
     return roles;
+  }
+
+  // Ranked ballot methods for Condorcet (Schulze) voting
+  hasVoterSubmittedRankedBallot(election_id, voter_id) {
+    return this.rankedBallots.some(ballot => 
+      ballot.election_id === election_id && ballot.voter_id === voter_id
+    );
+  }
+
+  createRankedBallot(ballotData) {
+    // Generate ballot ID
+    const ballot_id = `rb_${(this.rankedBallotIdCounter++).toString(16).padStart(4, '0')}`;
+    
+    // Create ranked ballot record
+    const ballot = {
+      ballot_id: ballot_id,
+      election_id: ballotData.election_id,
+      voter_id: ballotData.voter_id,
+      ranking: ballotData.ranking, // Array of candidate IDs in preference order
+      timestamp: ballotData.timestamp,
+      status: 'accepted',
+      created_at: new Date().toISOString()
+    };
+    
+    // Store ballot
+    this.rankedBallots.push(ballot);
+    
+    return {
+      ballot_id: ballot.ballot_id,
+      status: ballot.status
+    };
+  }
+
+  getRankedBallots(election_id) {
+    if (election_id) {
+      return this.rankedBallots.filter(ballot => ballot.election_id === election_id);
+    }
+    return this.rankedBallots;
+  }
+
+  // Compute Schulze winner (simplified implementation)
+  computeSchulzeWinner(election_id) {
+    const ballots = this.getRankedBallots(election_id);
+    
+    if (ballots.length === 0) {
+      throw new Error('No ranked ballots found for this election');
+    }
+    
+    // Get all candidates mentioned in rankings
+    const candidateSet = new Set();
+    ballots.forEach(ballot => {
+      ballot.ranking.forEach(candidateId => candidateSet.add(candidateId));
+    });
+    const candidates = Array.from(candidateSet);
+    
+    // Create pairwise preference matrix
+    const pairwiseMatrix = {};
+    candidates.forEach(i => {
+      pairwiseMatrix[i] = {};
+      candidates.forEach(j => {
+        pairwiseMatrix[i][j] = 0;
+      });
+    });
+    
+    // Count pairwise preferences
+    ballots.forEach(ballot => {
+      const ranking = ballot.ranking;
+      for (let i = 0; i < ranking.length; i++) {
+        for (let j = i + 1; j < ranking.length; j++) {
+          const preferred = ranking[i];
+          const lessPreferred = ranking[j];
+          pairwiseMatrix[preferred][lessPreferred]++;
+        }
+      }
+    });
+    
+    // Simplified Schulze method - find candidate with most pairwise wins
+    const wins = {};
+    candidates.forEach(candidate => wins[candidate] = 0);
+    
+    candidates.forEach(i => {
+      candidates.forEach(j => {
+        if (i !== j && pairwiseMatrix[i][j] > pairwiseMatrix[j][i]) {
+          wins[i]++;
+        }
+      });
+    });
+    
+    // Find winner
+    let winner = candidates[0];
+    candidates.forEach(candidate => {
+      if (wins[candidate] > wins[winner]) {
+        winner = candidate;
+      }
+    });
+    
+    return {
+      election_id: election_id,
+      method: 'schulze_condorcet',
+      winner: winner,
+      pairwise_matrix: pairwiseMatrix,
+      candidate_wins: wins,
+      total_ballots: ballots.length
+    };
+  }
+
+  // Risk-Limiting Audit methods
+  createRiskLimitingAudit(auditData) {
+    // Generate audit ID
+    const audit_id = `rla_${(this.auditIdCounter++).toString()}`;
+    
+    // Create audit record
+    const audit = {
+      audit_id: audit_id,
+      election_id: auditData.election_id,
+      reported_tallies: auditData.reported_tallies,
+      risk_limit_alpha: auditData.risk_limit_alpha,
+      audit_type: auditData.audit_type,
+      stratification: auditData.stratification,
+      initial_sample_size: auditData.initial_sample_size,
+      sampling_plan: auditData.sampling_plan,
+      test: auditData.test,
+      status: auditData.status,
+      created_at: new Date().toISOString(),
+      sample_results: [],
+      test_statistics: null
+    };
+    
+    // Store audit
+    this.riskLimitingAudits.push(audit);
+    
+    return {
+      audit_id: audit.audit_id,
+      initial_sample_size: audit.initial_sample_size,
+      sampling_plan: audit.sampling_plan,
+      test: audit.test,
+      status: audit.status
+    };
+  }
+
+  getRiskLimitingAudit(audit_id) {
+    const audit = this.riskLimitingAudits.find(a => a.audit_id === audit_id);
+    if (!audit) {
+      throw new Error(`Audit ${audit_id} not found`);
+    }
+    return audit;
+  }
+
+  updateRiskLimitingAudit(audit_id, updateData) {
+    const auditIndex = this.riskLimitingAudits.findIndex(a => a.audit_id === audit_id);
+    if (auditIndex === -1) {
+      throw new Error(`Audit ${audit_id} not found`);
+    }
+    
+    // Update audit with new data
+    Object.assign(this.riskLimitingAudits[auditIndex], updateData);
+    this.riskLimitingAudits[auditIndex].updated_at = new Date().toISOString();
+    
+    return this.riskLimitingAudits[auditIndex];
+  }
+
+  getAllRiskLimitingAudits(election_id) {
+    if (election_id) {
+      return this.riskLimitingAudits.filter(audit => audit.election_id === election_id);
+    }
+    return this.riskLimitingAudits;
   }
 }
 

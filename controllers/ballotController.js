@@ -77,4 +77,57 @@ router.get('/encrypted', async (req, res) => {
   }
 });
 
+// POST /api/ballots/ranked - Submit ranked ballots for Condorcet (Schulze) method (Q19)
+router.post('/ranked', async (req, res) => {
+  try {
+    const {
+      election_id,
+      voter_id,
+      ranking,
+      timestamp
+    } = req.body;
+    
+    // Validate required fields
+    if (!election_id || voter_id === undefined || !ranking || !timestamp) {
+      return res.status(400).json({
+        message: 'All fields are required: election_id, voter_id, ranking, timestamp'
+      });
+    }
+    
+    // Validate ranking array
+    if (!Array.isArray(ranking) || ranking.length === 0) {
+      return res.status(400).json({
+        message: 'ranking must be a non-empty array'
+      });
+    }
+    
+    const rankedBallot = ballotService.submitRankedBallot({
+      election_id,
+      voter_id,
+      ranking,
+      timestamp
+    });
+    
+    // Return status 239 Ranked with exact format from the image
+    res.status(239).json({
+      ballot_id: rankedBallot.ballot_id,
+      status: "accepted"
+    });
+  } catch (error) {
+    if (error.message.includes('already voted')) {
+      res.status(409).json({
+        message: error.message
+      });
+    } else if (error.message.includes('invalid ranking')) {
+      res.status(422).json({
+        message: error.message
+      });
+    } else {
+      res.status(400).json({
+        message: error.message
+      });
+    }
+  }
+});
+
 module.exports = router;

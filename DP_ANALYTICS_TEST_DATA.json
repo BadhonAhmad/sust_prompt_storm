@@ -1,0 +1,13 @@
+{
+  "election_id": "nat-2025",
+  "query": {
+    "type": "histogram",
+    "dimension": "voter_age_bucket",
+    "filter": {
+      "has_voted": true
+    }
+  },
+  "epsilon": 0.5,
+  "buckets": ["18-24", "25-34", "35-44", "45-64", "65+"],
+  "delta": 1e-6
+}

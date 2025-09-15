@@ -1,0 +1,10 @@
+{
+  "election_id": "nat-2025",
+  "reported_tallies": [
+    { "candidate_id": 1, "votes": 40321 },
+    { "candidate_id": 2, "votes": 39997 }
+  ],
+  "risk_limit_alpha": 0.05,
+  "audit_type": "ballot_polling",
+  "stratification": { "counties": ["A", "B", "C"] }
+}
