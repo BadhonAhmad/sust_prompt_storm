@@ -30,8 +30,14 @@ router.get('/', async (req, res) => {
     if (party) {
       // Q10 - Filter candidates by party
       candidates = candidateService.getCandidatesByParty(party);
+      // Format response to match specification (without votes field for party filtering)
+      const formattedCandidates = candidates.map(candidate => ({
+        candidate_id: candidate.candidate_id,
+        name: candidate.name,
+        party: candidate.party
+      }));
       res.status(230).json({
-        candidates: candidates
+        candidates: formattedCandidates
       });
     } else {
       // Q7 - List all candidates

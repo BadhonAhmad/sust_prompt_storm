@@ -23,8 +23,10 @@ router.post('/', async (req, res) => {
 
     const newVote = voteService.castVote({ voter_id, candidate_id });
     res.status(228).json({
+      vote_id: newVote.vote_id,
       voter_id: newVote.voter_id,
-      candidate_id: newVote.candidate_id
+      candidate_id: newVote.candidate_id,
+      timestamp: newVote.timestamp
     });
   } catch (error) {
     if (error.message.includes('has already voted')) {
@@ -32,11 +34,11 @@ router.post('/', async (req, res) => {
         message: error.message
       });
     } else if (error.message.includes('was not found')) {
-      res.status(404).json({
+      res.status(423).json({
         message: error.message
       });
     } else {
-      res.status(400).json({
+      res.status(423).json({
         message: error.message
       });
     }
