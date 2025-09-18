@@ -7,5 +7,5 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - development = production
+      - development=production
     restart: unless-stopped

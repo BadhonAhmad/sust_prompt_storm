@@ -1,112 +1,235 @@
-# SUST Prompt Storm API
+# SUST Prompt Storm Voting & Analytics API
 
-A backend API for the SUST Prompt Storm Hackathon with an in-memory database.
+Modern, extensible backend API for managing hackathon-style projects AND advanced election / voting workflows (voters, candidates, ballots, tallying, analytics, audits, and future cryptographic extensions). Runs fully in-memory (no external DB) for rapid prototyping & demonstrations.
 
-## Features
+> Port note: The server currently runs on **http://localhost:8000** (see `server.js`).
 
-- ✅ Express.js server with CORS support
-- ✅ In-memory database (no external database required)
-- ✅ User management (CRUD operations)
-- ✅ Project management (CRUD operations)
-- ✅ Data validation and error handling
-- ✅ RESTful API design
+## ✨ Feature Overview
 
-## Installation
+Core Platform
+- ⚡ Express.js service (JSON-first, CORS enabled)
+- 🧠 Layered architecture (controllers → services → models → in‑memory store)
+- 👥 Users & Projects CRUD
+
+Election / Voting Domain
+- 🗳️ Voters & Candidates management
+- ✅ Single-vote casting & (extensible to ranked / weighted / encrypted ballots)
+- 📊 Real-time results endpoint scaffold
+- 📈 Analytics endpoints (turnout, structured aggregates, DP-ready design)
+- 🔍 Audit & integrity endpoints (events, future anchoring, RLA scaffolding)
+
+Engineering & Ops
+- 🧪 Clear separation of concerns for testability
+- 🧩 Extensible service layer for adding tally algorithms (RCV, weighted, homomorphic)
+- 🛡️ Error handling & consistent JSON envelopes
+
+Privacy & Future Cryptography (Planned)
+- 🔐 Differential Privacy (budget tracking, release control)
+- 🧾 Zero-knowledge proof submission hooks
+- 🔏 Signature / anchoring placeholders
+
+## 🧱 Architecture
+
+```
+Request → Controller (validation, shape) → Service (business rules) → Model (record abstraction) → In-Memory Store
+                                                   ↓
+                                       (Future: persistence / cryptography / DP)
+```
+
+Layers
+- Controllers: HTTP wiring & minimal validation.
+- Services: Core domain logic (vote casting, uniqueness constraints, tally functions).
+- Models: Simple data shape modules (placeholder for future ORM/ODM or schema).
+- In-Memory Store: Fast iteration; can be swapped for MongoDB/Postgres later.
+
+## 🚀 Quick Start
 
 ```bash
+git clone <repo-url>
+cd sust_prompt_storm
 npm install
+npm run dev   # watches with nodemon
+# or
+npm start     # production run
 ```
 
-## Running the Server
+Server: http://localhost:8000
+Root JSON index: http://localhost:8000/
+
+## 🐳 Docker
 
 ```bash
-# Development mode
-npm run dev
-
-# Production mode
-npm start
+docker compose up -d --build
+curl http://localhost:8000
+docker compose logs -f
 ```
 
-The server will start on `http://localhost:3000`
+## 📚 High-Level API Domains
 
-## API Endpoints
+| Domain | Base Path | Purpose |
+|--------|-----------|---------|
+| Users | `/api/users` | Hackathon participant / role registry |
+| Projects | `/api/projects` | Manage project lifecycle & metadata |
+| Voters | `/api/voters` | Register eligible voters (age / uniqueness rules) |
+| Candidates | `/api/candidates` | Candidate roster management |
+| Votes | `/api/votes` | Record direct (plurality) votes |
+| Ballots | `/api/ballots` | Advanced ballot types (ranked, weighted, encrypted – roadmap) |
+| Results | `/api/results` | Aggregated tallies & round data |
+| Analytics | `/api/analytics` | Turnout, demographics, DP aggregates |
+| Audits | `/api/audits` | Event & integrity reporting |
 
-### Users
+> For now, some endpoints are placeholders—scaffolding exists to accelerate future expansion.
 
-- `GET /api/users` - Get all users
-- `GET /api/users/:id` - Get user by ID
-- `GET /api/users/email/:email` - Get user by email
-- `POST /api/users` - Create new user
-- `PUT /api/users/:id` - Update user
-- `DELETE /api/users/:id` - Delete user
+## 🔑 Example Endpoints (Current & Planned)
 
-Query parameters:
-- `role` - Filter users by role (participant, mentor, judge, organizer)
-- `team` - Filter users by team name
+Users
+```
+GET /api/users
+POST /api/users
+GET /api/users/:id
+PUT /api/users/:id
+DELETE /api/users/:id
+```
 
-### Projects
+Projects
+```
+GET /api/projects
+POST /api/projects
+GET /api/projects/:id
+PATCH /api/projects/:id/status   # change state
+DELETE /api/projects/:id
+```
 
-- `GET /api/projects` - Get all projects
-- `GET /api/projects/:id` - Get project by ID
-- `GET /api/projects/stats` - Get project statistics
-- `POST /api/projects` - Create new project
-- `PUT /api/projects/:id` - Update project
-- `PATCH /api/projects/:id/status` - Update project status
-- `DELETE /api/projects/:id` - Delete project
+Voters (sample behavior reflected in HTML examples)
+```
+POST /api/voters            # create (age >= 18 enforced)
+GET /api/voters/:id         # show (has_voted flag)
+DELETE /api/voters/:id      # remove
+```
 
-Query parameters:
-- `category` - Filter by category (AI/ML, Web Development, etc.)
-- `status` - Filter by status (draft, in-progress, completed, submitted)
-- `team` - Filter by team name
-- `search` - Search in title and description
+Candidates
+```
+POST /api/candidates
+GET /api/candidates
+```
 
-## Sample Data
+Votes / Ballots (plurality now; extensible)
+```
+POST /api/votes             # { voter_id, candidate_id }
+GET  /api/results           # aggregated counts
+```
 
-The database comes pre-loaded with sample users and projects for testing.
+Planned Advanced Voting (roadmap)
+```
+POST /api/ballots/ranked        # ranked-choice list
+POST /api/ballots/weighted      # allocation weights
+POST /api/ballots/encrypted     # ciphertext + zk proof
+GET  /api/results/ranked-rounds # elimination rounds
+```
 
-## Example Requests
+Analytics & DP (planned)
+```
+POST /api/analytics/dp-counts   # { queries, epsilon, delta }
+GET  /api/analytics/budget
+```
 
-### Create a User
+Audits & Integrity (planned)
+```
+GET  /api/audits                # filterable event log
+POST /api/audits/anchors        # anchor hash chain
+POST /api/projects/:id/finalize # lock & finalize tally
+```
+
+## 🛡️ Security & Integrity Principles
+
+- Deterministic validation of voter uniqueness.
+- Single-vote enforcement (future: idempotency keys).
+- Consistent structured error responses.
+- Separation of read vs. write endpoints (ease scaling).
+- Future hooks for: signatures, zero-knowledge proofs, risk‑limiting audits.
+
+## 🔐 Differential Privacy (Roadmap)
+
+Will support:
+- Global privacy budget (epsilon, delta) per project.
+- Composition strategies (basic / advanced / moments accountant).
+- Noisy count & histogram release endpoints.
+- Refusal of queries once budget exhausted.
+
+## 📏 Auditing & RLA (Roadmap)
+
+Planned capabilities:
+- Audit event stream (vote cast, tally updated, finalize triggered).
+- Hash chained log & optional external anchoring.
+- Risk-limiting audit planning: sample generation, stratification, status tracking.
+
+## 🧪 Testing (Planned Suggestions)
+
+Add (future):
+- Unit tests for services (vote casting, tally logic, age validation)
+- Integration tests via supertest
+- Property-based tests for tally algorithms (e.g. ranked-choice elimination validity)
+
+## 🗺️ Roadmap Snapshot
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| 1 | Core CRUD (users, projects) | ✅ Done |
+| 2 | Voters, candidates, votes | ✅ Initial |
+| 3 | Results aggregation | ✅ Basic |
+| 4 | Ranked & weighted ballots | ⏳ Planned |
+| 5 | Cryptographic / encrypted ballots | ⏳ Planned |
+| 6 | Differential privacy analytics | ⏳ Planned |
+| 7 | Audits & RLA tooling | ⏳ Planned |
+| 8 | Production persistence (DB swap) | ⏳ Planned |
+
+## 📂 Project Structure
+
+```
+├── controllers/        # Route handlers (HTTP layer)
+├── services/           # Business logic (votes, tally, validation)
+├── models/             # Data models (simple objects for now)
+├── database.js         # In-memory registry/store
+├── server.js           # Express bootstrap
+├── compose.yml         # Docker compose service
+├── Dockerfile          # Container build
+└── package.json        # Scripts & dependencies
+```
+
+## 🛠️ Tech Stack
+
+- Node.js + Express
+- Body Parser / CORS
+- UUID (id generation)
+- Dotenv (env management)
+- Docker (optional containerization)
+
+## 🔄 Example: Create Voter & Cast Vote
+
 ```bash
-curl -X POST http://localhost:3000/api/users \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "John Doe",
-    "email": "john@example.com", 
-    "role": "participant",
-    "team": "Team Alpha"
-  }'
+curl -X POST http://localhost:8000/api/voters \
+  -H 'Content-Type: application/json' \
+  -d '{"voter_id":1,"name":"Alice","age":22}'
+
+curl -X POST http://localhost:8000/api/votes \
+  -H 'Content-Type: application/json' \
+  -d '{"voter_id":1,"candidate_id":2}'
+
+curl http://localhost:8000/api/results
 ```
 
-### Create a Project
-```bash
-curl -X POST http://localhost:3000/api/projects \
-  -H "Content-Type: application/json" \
-  -d '{
-    "title": "AI Chat Bot",
-    "description": "An intelligent chatbot using NLP",
-    "category": "AI/ML",
-    "teamName": "Team Alpha",
-    "status": "in-progress"
-  }'
-```
+## 🤝 Contributing
 
-## Project Structure
+PRs welcome. Focus areas: tests, advanced tally algorithms, DP framework, cryptographic primitives.
 
-```
-├── controllers/        # API route handlers
-├── models/            # Data models and validation
-├── services/          # Business logic
-├── database.js        # In-memory database
-├── server.js         # Express server setup
-└── package.json      # Dependencies and scripts
-```
+## 📄 License
 
-## Technologies Used
+MIT
 
-- Node.js
-- Express.js
-- UUID for unique IDs
-- CORS for cross-origin requests
-- Body-parser for request parsing
-- Dotenv for environment variables
+## 🔍 LinkedIn‑Ready Summary (Short)
+
+“Built a modular voting & analytics API: voters, candidates, ballots, real‑time results, and a roadmap for ranked choice, differential privacy, audits & cryptographic verification — all running on a lean in‑memory Node.js/Express backend. Designed for rapid experimentation and future verifiability.”
+
+---
+
+Feel free to adapt the summary or request a version tailored to hiring, research, or competition recap.
