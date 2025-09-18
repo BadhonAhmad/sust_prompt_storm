@@ -43,11 +43,11 @@ router.post('/encrypted', async (req, res) => {
         message: "invalid zk proof"
       });
     } else if (error.message.includes('nullifier already used')) {
-      res.status(409).json({
+      res.status(425).json({
         message: error.message
       });
     } else {
-      res.status(400).json({
+      res.status(425).json({
         message: error.message
       });
     }
