@@ -1,0 +1,918 @@
+{
+	"info": {
+		"_postman_id": "e7e5a880-3cec-4af3-9908-aeded3aa93d8",
+		"name": "HackTheAI API (fixed)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46444198",
+		"_collection_link": "https://sust11.postman.co/workspace/sust-Workspace~94af8f5a-17ca-453f-83b6-fae40bfa3dfe/collection/46444198-e7e5a880-3cec-4af3-9908-aeded3aa93d8?action=share&source=collection_link&creator=46444198"
+	},
+	"item": [
+		{
+			"name": "Create Voter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"voter_id\": 3,\n  \"name\": \"sk\",\n  \"age\": 23\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Voter Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"voter_id\": 2,\n  \"name\": \"Alice\",\n  \"age\": 17\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Voter Info",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Voter Info Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List All Voters",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/voters",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Voter Info",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"sk sazid\",\n  \"age\": 18\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Voter Info Copy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"sk sazid\",\n  \"age\": 8\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Voter Info Copy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"sk sazid\",\n  \"age\": 18\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Voter",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"message\": \"voter with id: 1 deleted successfully\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/voters/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"voters",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register Candidate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"candidate_id\": 4,\n  \"name\": \"ss\",\n  \"party\": \"Sk Party\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/candidates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"candidates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Candidates",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/candidates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"candidates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cast Vote",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"voter_id\": 3,\n  \"candidate_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/votes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"votes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cast Vote Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"voter_id\": 1,\n  \"candidate_id\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/votes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"votes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Candidate Votes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/candidates/2/votes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"candidates",
+						"2",
+						"votes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Candidates by Party",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/candidates?party=Green%20Party",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"candidates"
+					],
+					"query": [
+						{
+							"key": "party",
+							"value": "Green%20Party"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Voting Results (Leaderboard)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/results",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"results"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Winning Candidate",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/results/winner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"results",
+						"winner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Vote Timeline",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/votes/timeline?candidate_id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"votes",
+						"timeline"
+					],
+					"query": [
+						{
+							"key": "candidate_id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Range Vote Queries",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/votes/range?candidate_id=2&from=2025-09-15T14:55:49.431Z&to=2025-09-15T14:55:49.431Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"votes",
+						"range"
+					],
+					"query": [
+						{
+							"key": "candidate_id",
+							"value": "2"
+						},
+						{
+							"key": "from",
+							"value": "2025-09-15T14:55:49.431Z"
+						},
+						{
+							"key": "to",
+							"value": "2025-09-15T14:55:49.431Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Range Vote Queries Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/votes/range?candidate_id=2&from=2025-09-15T14:55:49.431Z&to=2025-08-15T14:55:49.431Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"votes",
+						"range"
+					],
+					"query": [
+						{
+							"key": "candidate_id",
+							"value": "2"
+						},
+						{
+							"key": "from",
+							"value": "2025-09-15T14:55:49.431Z"
+						},
+						{
+							"key": "to",
+							"value": "2025-08-15T14:55:49.431Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Range Vote Queries Copy 2",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/api/votes/range?candidate_id=2&from=rewr&to=2025-08-15T14:55:49.431Z",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"votes",
+						"range"
+					],
+					"query": [
+						{
+							"key": "candidate_id",
+							"value": "2"
+						},
+						{
+							"key": "from",
+							"value": "rewr"
+						},
+						{
+							"key": "to",
+							"value": "2025-08-15T14:55:49.431Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End-to-End Verifiable Encrypted Ballot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"election_id\": \"nat-2025\",\n  \"ciphertext\": \"base64(Paillier_or_ElGamal_cipher)\",\n  \"zk_proof\": \"base64(Groth16_or_Plonk_proof)\",\n  \"voter_pubkey\": \"hex(P-256)\",\n  \"nullifier\": \"hex(keccak256(signal))\",\n  \"signature\": \"base64(Ed25519 signature over payload)\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/ballots/encrypted",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"ballots",
+						"encrypted"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "End-to-End Verifiable Encrypted Ballot Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"election_id\": \"nat-2025\",\n  \"ciphertext\": \"bdase64(Paillier_or_ElGamal_cipher)\",\n  \"zk_proof\": \"base64(Groth16_or_Plonk_proof)\",\n  \"voter_pubkey\": \"hex(P-256)\",\n  \"nullifier\": \"hex(keccak256(signal))\",\n  \"signature\": \"base64(Ed25519 signature over payload)\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/ballots/encrypted",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"ballots",
+						"encrypted"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Homomorphic Tally With Verifiable Decryption",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"election_id\": \"nat-2025\",\n  \"trustee_decrypt_shares\": [\n    {\n      \"trustee_id\": \"T1\",\n      \"share\": \"base64(...)\",\n      \"proof\": \"base64(NIZK)\"\n    },\n    {\n      \"trustee_id\": \"T3\",\n      \"share\": \"base64(...)\",\n      \"proof\": \"base64(NIZK)\"\n    },\n    {\n      \"trustee_id\": \"T5\",\n      \"share\": \"base64(...)\",\n      \"proof\": \"base64(NIZK)\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/results/homomorphic",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"results",
+						"homomorphic"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Differential-Privacy Analytics",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"election_id\": \"nat-2025\",\n  \"query\": {\n    \"type\": \"histogram\",\n    \"dimension\": \"voter_age_bucket\",\n    \"buckets\": [\n      \"18-24\",\n      \"25-34\",\n      \"35-44\",\n      \"45-64\",\n      \"65+\"\n    ],\n    \"filter\": {\n      \"has_voted\": true\n    }\n  },\n  \"epsilon\": 0.5,\n  \"delta\": 1e-06\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/analytics/dp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"analytics",
+						"dp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ranked-Choice / Condorcet (Schulze)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"election_id\": \"city-rcv-2025\",\n  \"voter_id\": 123,\n  \"ranking\": [\n    3,\n    1,\n    2,\n    5,\n    4\n  ],\n  \"timestamp\": \"2025-09-10T10:15:00Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/ballots/ranked",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"ballots",
+						"ranked"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Risk-Limiting Audit (RLA)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"election_id\": \"nat-2025\",\n  \"reported_tallies\": [\n    {\n      \"candidate_id\": 1,\n      \"votes\": 40321\n    },\n    {\n      \"candidate_id\": 2,\n      \"votes\": 39997\n    }\n  ],\n  \"risk_limit_alpha\": 0.05,\n  \"audit_type\": \"ballot_polling\",\n  \"stratification\": {\n    \"counties\": [\n      \"A\",\n      \"B\",\n      \"C\"\n    ]\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/audits/plan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"audits",
+						"plan"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

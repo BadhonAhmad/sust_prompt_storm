@@ -1,235 +1,141 @@
-# SUST Prompt Storm Voting & Analytics API
+# SUST Prompt Storm - Voting & Analytics API
 
-Modern, extensible backend API for managing hackathon-style projects AND advanced election / voting workflows (voters, candidates, ballots, tallying, analytics, audits, and future cryptographic extensions). Runs fully in-memory (no external DB) for rapid prototyping & demonstrations.
+> **Hackathon Problem**: *Building a comprehensive election/voting system with real-time tallying, analytics, and integrity features. The challenge focuses on creating extensible voting workflows supporting multiple ballot types (plurality, ranked-choice, weighted) with future-ready architecture for cryptographic verification, differential privacy, and audit trails.*
 
-> Port note: The server currently runs on **http://localhost:8000** (see `server.js`).
+Modern backend API for hackathon projects AND advanced election workflows. Features voters, candidates, ballot casting, real-time results, analytics, and audit scaffolding. Fully in-memory for rapid prototyping.
 
-## ✨ Feature Overview
+**Server**: http://localhost:8000
 
-Core Platform
-- ⚡ Express.js service (JSON-first, CORS enabled)
-- 🧠 Layered architecture (controllers → services → models → in‑memory store)
+---
+
+## ✨ Features
+
+**Core Platform**
+- ⚡ Express.js + layered architecture (controllers → services → models)
 - 👥 Users & Projects CRUD
+- 🧠 In-memory store (swappable for DB later)
 
-Election / Voting Domain
-- 🗳️ Voters & Candidates management
-- ✅ Single-vote casting & (extensible to ranked / weighted / encrypted ballots)
-- 📊 Real-time results endpoint scaffold
-- 📈 Analytics endpoints (turnout, structured aggregates, DP-ready design)
-- 🔍 Audit & integrity endpoints (events, future anchoring, RLA scaffolding)
+**Election Domain**
+- 🗳️ Voters (age validation, uniqueness) & Candidates
+- ✅ Vote casting with single-vote enforcement
+- 📊 Real-time results aggregation
+- 📈 Analytics (turnout, demographics, DP-ready design)
+- 🔍 Audit endpoints (events, integrity hooks)
 
-Engineering & Ops
-- 🧪 Clear separation of concerns for testability
-- 🧩 Extensible service layer for adding tally algorithms (RCV, weighted, homomorphic)
-- 🛡️ Error handling & consistent JSON envelopes
+**Roadmap**
+- 🔐 Ranked-choice & weighted ballots
+- 🧾 Encrypted ballots + zero-knowledge proofs
+- 🔏 Differential privacy analytics
+- 🛡️ Risk-limiting audits & blockchain anchoring
 
-Privacy & Future Cryptography (Planned)
-- 🔐 Differential Privacy (budget tracking, release control)
-- 🧾 Zero-knowledge proof submission hooks
-- 🔏 Signature / anchoring placeholders
-
-## 🧱 Architecture
-
-```
-Request → Controller (validation, shape) → Service (business rules) → Model (record abstraction) → In-Memory Store
-                                                   ↓
-                                       (Future: persistence / cryptography / DP)
-```
-
-Layers
-- Controllers: HTTP wiring & minimal validation.
-- Services: Core domain logic (vote casting, uniqueness constraints, tally functions).
-- Models: Simple data shape modules (placeholder for future ORM/ODM or schema).
-- In-Memory Store: Fast iteration; can be swapped for MongoDB/Postgres later.
+---
 
 ## 🚀 Quick Start
 
 ```bash
-git clone <repo-url>
-cd sust_prompt_storm
 npm install
-npm run dev   # watches with nodemon
+npm run dev   # development with nodemon
 # or
-npm start     # production run
+npm start     # production
 ```
 
-Server: http://localhost:8000
-Root JSON index: http://localhost:8000/
-
-## 🐳 Docker
-
+**Docker**:
 ```bash
 docker compose up -d --build
 curl http://localhost:8000
-docker compose logs -f
 ```
 
-## 📚 High-Level API Domains
+---
 
-| Domain | Base Path | Purpose |
-|--------|-----------|---------|
-| Users | `/api/users` | Hackathon participant / role registry |
-| Projects | `/api/projects` | Manage project lifecycle & metadata |
-| Voters | `/api/voters` | Register eligible voters (age / uniqueness rules) |
-| Candidates | `/api/candidates` | Candidate roster management |
-| Votes | `/api/votes` | Record direct (plurality) votes |
-| Ballots | `/api/ballots` | Advanced ballot types (ranked, weighted, encrypted – roadmap) |
-| Results | `/api/results` | Aggregated tallies & round data |
-| Analytics | `/api/analytics` | Turnout, demographics, DP aggregates |
-| Audits | `/api/audits` | Event & integrity reporting |
+## 📚 API Overview
 
-> For now, some endpoints are placeholders—scaffolding exists to accelerate future expansion.
+| Domain | Endpoint | Description |
+|--------|----------|-------------|
+| **Users** | `/api/users` | Participant registry |
+| **Projects** | `/api/projects` | Project lifecycle |
+| **Voters** | `/api/voters` | Voter registration (age ≥18) |
+| **Candidates** | `/api/candidates` | Candidate roster |
+| **Votes** | `/api/votes` | Cast plurality votes |
+| **Results** | `/api/results` | Aggregated tallies |
+| **Analytics** | `/api/analytics` | Turnout & DP aggregates *(planned)* |
+| **Audits** | `/api/audits` | Event logs & integrity *(planned)* |
 
-## 🔑 Example Endpoints (Current & Planned)
+---
 
-Users
-```
-GET /api/users
-POST /api/users
-GET /api/users/:id
-PUT /api/users/:id
-DELETE /api/users/:id
-```
-
-Projects
-```
-GET /api/projects
-POST /api/projects
-GET /api/projects/:id
-PATCH /api/projects/:id/status   # change state
-DELETE /api/projects/:id
-```
-
-Voters (sample behavior reflected in HTML examples)
-```
-POST /api/voters            # create (age >= 18 enforced)
-GET /api/voters/:id         # show (has_voted flag)
-DELETE /api/voters/:id      # remove
-```
-
-Candidates
-```
-POST /api/candidates
-GET /api/candidates
-```
-
-Votes / Ballots (plurality now; extensible)
-```
-POST /api/votes             # { voter_id, candidate_id }
-GET  /api/results           # aggregated counts
-```
-
-Planned Advanced Voting (roadmap)
-```
-POST /api/ballots/ranked        # ranked-choice list
-POST /api/ballots/weighted      # allocation weights
-POST /api/ballots/encrypted     # ciphertext + zk proof
-GET  /api/results/ranked-rounds # elimination rounds
-```
-
-Analytics & DP (planned)
-```
-POST /api/analytics/dp-counts   # { queries, epsilon, delta }
-GET  /api/analytics/budget
-```
-
-Audits & Integrity (planned)
-```
-GET  /api/audits                # filterable event log
-POST /api/audits/anchors        # anchor hash chain
-POST /api/projects/:id/finalize # lock & finalize tally
-```
-
-## 🛡️ Security & Integrity Principles
-
-- Deterministic validation of voter uniqueness.
-- Single-vote enforcement (future: idempotency keys).
-- Consistent structured error responses.
-- Separation of read vs. write endpoints (ease scaling).
-- Future hooks for: signatures, zero-knowledge proofs, risk‑limiting audits.
-
-## 🔐 Differential Privacy (Roadmap)
-
-Will support:
-- Global privacy budget (epsilon, delta) per project.
-- Composition strategies (basic / advanced / moments accountant).
-- Noisy count & histogram release endpoints.
-- Refusal of queries once budget exhausted.
-
-## 📏 Auditing & RLA (Roadmap)
-
-Planned capabilities:
-- Audit event stream (vote cast, tally updated, finalize triggered).
-- Hash chained log & optional external anchoring.
-- Risk-limiting audit planning: sample generation, stratification, status tracking.
-
-## 🧪 Testing (Planned Suggestions)
-
-Add (future):
-- Unit tests for services (vote casting, tally logic, age validation)
-- Integration tests via supertest
-- Property-based tests for tally algorithms (e.g. ranked-choice elimination validity)
-
-## 🗺️ Roadmap Snapshot
-
-| Phase | Focus | Status |
-|-------|-------|--------|
-| 1 | Core CRUD (users, projects) | ✅ Done |
-| 2 | Voters, candidates, votes | ✅ Initial |
-| 3 | Results aggregation | ✅ Basic |
-| 4 | Ranked & weighted ballots | ⏳ Planned |
-| 5 | Cryptographic / encrypted ballots | ⏳ Planned |
-| 6 | Differential privacy analytics | ⏳ Planned |
-| 7 | Audits & RLA tooling | ⏳ Planned |
-| 8 | Production persistence (DB swap) | ⏳ Planned |
-
-## 📂 Project Structure
-
-```
-├── controllers/        # Route handlers (HTTP layer)
-├── services/           # Business logic (votes, tally, validation)
-├── models/             # Data models (simple objects for now)
-├── database.js         # In-memory registry/store
-├── server.js           # Express bootstrap
-├── compose.yml         # Docker compose service
-├── Dockerfile          # Container build
-└── package.json        # Scripts & dependencies
-```
-
-## 🛠️ Tech Stack
-
-- Node.js + Express
-- Body Parser / CORS
-- UUID (id generation)
-- Dotenv (env management)
-- Docker (optional containerization)
-
-## 🔄 Example: Create Voter & Cast Vote
+## 🔑 Example Workflow
 
 ```bash
+# Register voter
 curl -X POST http://localhost:8000/api/voters \
   -H 'Content-Type: application/json' \
   -d '{"voter_id":1,"name":"Alice","age":22}'
 
+# Cast vote
 curl -X POST http://localhost:8000/api/votes \
-  -H 'Content-Type: application/json' \
   -d '{"voter_id":1,"candidate_id":2}'
 
+# View results
 curl http://localhost:8000/api/results
 ```
 
+---
+
+## 🗺️ Roadmap
+
+| Phase | Feature | Status |
+|-------|---------|--------|
+| **1-3** | Core CRUD, Voters, Basic voting | ✅ Complete |
+| **4** | Ranked-choice & weighted ballots | ⏳ Planned |
+| **5** | Encrypted ballots + ZK proofs | ⏳ Planned |
+| **6** | Differential Privacy analytics | ⏳ Planned |
+| **7** | Audit logs & RLA tooling | ⏳ Planned |
+| **8** | Database persistence | ⏳ Planned |
+
+---
+
+## 🧱 Architecture
+
+```
+HTTP Request → Controller → Service → Model → In-Memory Store
+              (validation)  (logic)   (schema)  (data)
+```
+
+**Tech Stack**: Node.js, Express, UUID, Docker
+
+**Structure**:
+```
+├── controllers/    # HTTP handlers
+├── services/       # Business logic
+├── models/         # Data schemas
+├── database.js     # In-memory store
+└── server.js       # App bootstrap
+```
+
+---
+
+## 🔐 Security & Future Extensions
+
+- ✅ Voter uniqueness & single-vote enforcement
+- ✅ Deterministic validation
+- 🔜 Differential privacy budget management
+- 🔜 Zero-knowledge proof verification
+- 🔜 Risk-limiting audit sampling
+- 🔜 Hash chain + blockchain anchoring
+
+---
+
 ## 🤝 Contributing
 
-PRs welcome. Focus areas: tests, advanced tally algorithms, DP framework, cryptographic primitives.
+PRs welcome! Focus areas: tests, advanced tally algorithms (RCV), DP framework, cryptographic primitives.
+
+---
 
 ## 📄 License
 
 MIT
 
-## 🔍 LinkedIn‑Ready Summary (Short)
-
-“Built a modular voting & analytics API: voters, candidates, ballots, real‑time results, and a roadmap for ranked choice, differential privacy, audits & cryptographic verification — all running on a lean in‑memory Node.js/Express backend. Designed for rapid experimentation and future verifiability.”
-
 ---
 
-Feel free to adapt the summary or request a version tailored to hiring, research, or competition recap.
+## 💼 Project Summary
+
+*"Built a modular voting API supporting voters, candidates, real-time tallying, and analytics — with extensible architecture for ranked-choice, differential privacy, and cryptographic verification. Designed for rapid prototyping on Node.js/Express with future-ready audit and integrity features."*
