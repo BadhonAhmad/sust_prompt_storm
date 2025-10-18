@@ -1,28 +1,38 @@
 # SUST Prompt Storm - Voting & Analytics API
 
-> **Hackathon Problem**: *Building a comprehensive election/voting system with real-time tallying, analytics, and integrity features. The challenge focuses on creating extensible voting workflows supporting multiple ballot types (plurality, ranked-choice, weighted) with future-ready architecture for cryptographic verification, differential privacy, and audit trails.*
+> **Hackathon Challenge**: This project addresses the HackTheAI Preliminary Challenge. For complete problem statement details, see [`HackTheAI-Preli-Problems.html`](./HackTheAI-Preli-Problems.html)
 
-Modern backend API for hackathon projects AND advanced election workflows. Features voters, candidates, ballot casting, real-time results, analytics, and audit scaffolding. Fully in-memory for rapid prototyping.
+Modern backend API for an election/voting system with real-time tallying, analytics, and integrity features. Built for rapid prototyping with in-memory storage.
 
 **Server**: http://localhost:8000
 
 ---
 
-## ✨ Features
+## 🎯 Problem Overview
 
-**Core Platform**
-- ⚡ Express.js + layered architecture (controllers → services → models)
+The challenge focuses on building a comprehensive election/voting platform with:
+- Multiple ballot types (plurality, ranked-choice, weighted)
+- Real-time result aggregation and analytics
+- Voter/candidate management with validation rules
+- Future-ready architecture for cryptographic verification and audit trails
+
+---
+
+## ✨ Key Features
+
+### Core Platform
+- ⚡ Express.js with layered architecture (controllers → services → models)
 - 👥 Users & Projects CRUD
-- 🧠 In-memory store (swappable for DB later)
+- 🧠 In-memory store (production DB-ready)
 
-**Election Domain**
-- 🗳️ Voters (age validation, uniqueness) & Candidates
+### Election System
+- 🗳️ Voter registration (age ≥18 validation) & candidate management
 - ✅ Vote casting with single-vote enforcement
 - 📊 Real-time results aggregation
-- 📈 Analytics (turnout, demographics, DP-ready design)
-- 🔍 Audit endpoints (events, integrity hooks)
+- 📈 Analytics ready for differential privacy
+- 🔍 Audit event scaffolding
 
-**Roadmap**
+### Roadmap
 - 🔐 Ranked-choice & weighted ballots
 - 🧾 Encrypted ballots + zero-knowledge proofs
 - 🔏 Differential privacy analytics
@@ -35,8 +45,7 @@ Modern backend API for hackathon projects AND advanced election workflows. Featu
 ```bash
 npm install
 npm run dev   # development with nodemon
-# or
-npm start     # production
+# or npm start (production)
 ```
 
 **Docker**:
@@ -47,22 +56,20 @@ curl http://localhost:8000
 
 ---
 
-## 📚 API Overview
+## 📚 API Endpoints
 
 | Domain | Endpoint | Description |
 |--------|----------|-------------|
 | **Users** | `/api/users` | Participant registry |
-| **Projects** | `/api/projects` | Project lifecycle |
+| **Projects** | `/api/projects` | Project lifecycle management |
 | **Voters** | `/api/voters` | Voter registration (age ≥18) |
 | **Candidates** | `/api/candidates` | Candidate roster |
 | **Votes** | `/api/votes` | Cast plurality votes |
 | **Results** | `/api/results` | Aggregated tallies |
 | **Analytics** | `/api/analytics` | Turnout & DP aggregates *(planned)* |
-| **Audits** | `/api/audits` | Event logs & integrity *(planned)* |
+| **Audits** | `/api/audits` | Event logs *(planned)* |
 
----
-
-## 🔑 Example Workflow
+### Example Usage
 
 ```bash
 # Register voter
@@ -80,7 +87,7 @@ curl http://localhost:8000/api/results
 
 ---
 
-## 🗺️ Roadmap
+## 🗺️ Development Roadmap
 
 | Phase | Feature | Status |
 |-------|---------|--------|
@@ -113,14 +120,21 @@ HTTP Request → Controller → Service → Model → In-Memory Store
 
 ---
 
-## 🔐 Security & Future Extensions
+## 🔐 Security Features
 
 - ✅ Voter uniqueness & single-vote enforcement
+- ✅ Age validation (≥18 years)
 - ✅ Deterministic validation
 - 🔜 Differential privacy budget management
 - 🔜 Zero-knowledge proof verification
 - 🔜 Risk-limiting audit sampling
 - 🔜 Hash chain + blockchain anchoring
+
+---
+
+## 💼 Summary
+
+*"Modern voting API with voters, candidates, real-time tallying, and analytics. Features extensible architecture for ranked-choice voting, differential privacy, and cryptographic verification. Built on Node.js/Express with future-ready audit and integrity features."*
 
 ---
 
@@ -136,6 +150,4 @@ MIT
 
 ---
 
-## 💼 Project Summary
-
-*"Built a modular voting API supporting voters, candidates, real-time tallying, and analytics — with extensible architecture for ranked-choice, differential privacy, and cryptographic verification. Designed for rapid prototyping on Node.js/Express with future-ready audit and integrity features."*
+**For detailed problem requirements, refer to [`HackTheAI-Preli-Problems.html`](./HackTheAI-Preli-Problems.html)**
